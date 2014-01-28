@@ -1,0 +1,12 @@
+comandos útiles:
+
+-clonar el repositorio: git clone [dirección web]
+
+-añadir ficheros: -Todo: git add .
+                  -Solo algún archivo: git add [archivo1, archivoN...]
+                  
+-añadir commit: git commit -m "mensaje que se muestre"
+
+-hacer push: git push [dirección web de github]
+
+-sincronizar el repositorio: git pull origin
