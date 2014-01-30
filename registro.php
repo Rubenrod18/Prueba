@@ -8,6 +8,8 @@
 		<meta charset="UTF-8">
 		<title>Sabio GC - base de conocimiento</title>
 		<link rel="shortcut icon" href="./img/favicon.ico" />
+		<link rel='stylesheet' type='text/css' href='./css/normalize.css'>
+		<link rel='stylesheet' type='text/css' href='./css/styles.css'>
 	</head>
 	<body>
 		<?php

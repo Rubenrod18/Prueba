@@ -9,7 +9,17 @@
 		<title>Sabio GC - base de conocimiento</title>
 		<link rel="shortcut icon" href="./img/favicon.ico" />
 		<link rel='stylesheet' type='text/css' href='./css/normalize.css'>
+		<link rel='stylesheet' type='text/css' href='./css/simple.css'>
 		<link rel='stylesheet' type='text/css' href='./css/styles.css'>
+		<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
+		<script type='text/javascript' src='./js/jquery.pikachoose.js'></script>
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				$('#pikame').PikaChoose({
+					transition:[3]
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<?php
@@ -23,6 +33,7 @@
 						para el uso del profesorado y alumnado del centro.
 					</p>
 				</div>";
+				crearSlider();
 			echo "</div>";
 			crearFooter();
 		?>

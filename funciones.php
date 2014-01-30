@@ -6,7 +6,7 @@
 	function crearHeader(){
 		echo "<header>
 			<figure>
-				<img src='./img/logo.jpg'>
+				<a href='index.php'><img src='./img/logo.jpg'></a>
 			</figure>
 			<h1>Sabio GC</h1>
 		</header>";
@@ -52,29 +52,39 @@
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
 	
+	function crearSlider(){
+		echo "<div class='pikachoose'>
+				<ul id='pikame' >
+					<li><a href='http://www.pikachoose.com'><img src='img/gcap01.jpg'/></a><span>An example of each transition.</span></li>
+					<li><a href='http://www.pikachoose.com'><img src='img/gcap03.jpg'/></a><span>Any donation is appreciated. PikaChoose is free to use!</span></li>
+					<li><a href='http://www.pikachoose.com'><img src='img/blogcapitan.jpg'/></a><span>Be sure to check out <a href='http://www.pikachoose.com'>PikaChoose.com</a> for updates.</span></li>
+				</ul>
+			</div>";
+	}
+	
 	function crearFooter(){
 		echo "<footer id='pie'>
 			<div class='fcolumn'>
 				<h3>Sobre nosotros</h3>
 				<ul>
-					<li>Quiénes somos</li>
-					<li>Contacto</li>
+					<li><a href=''>Quiénes somos</a></li>
+					<li><a href=''>Contacto</a></li>
 				</ul>
 			</div>
 			
 			<div class='fcolumn'>
 				<h3>Redes sociales</h3>
 				<ul>
-					<li>Twitter</li>
-					<li>Facebook</li>
-					<li>Google +</li>
+					<li><a href=''>Twitter</a></li>
+					<li><a href=''>Facebook</a></li>
+					<li><a href=''>Google +</a></li>
 				</ul>
 			</div>
 			
 			<div class='fcolumn'>
 				<h3>Términos de uso</h3>
 				<ul>
-					<li>Poner imagen CC</li>
+					<li><a href=''>Poner imagen CC</a></li>
 				</ul>
 			</div>
 		</footer>";

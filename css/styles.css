@@ -36,7 +36,7 @@ header figure{
 }
 
 header figure img{
-	border-radius: 55px 55px 10px 0px;
+	border-radius: 60px 55px 10px 0px;
 }
 
 header h1{
@@ -63,6 +63,15 @@ p{
 	float: right;
 }
 
+.pikachoose{
+	padding: 30px;
+	width: 600px;
+	border-radius: 30px;
+	background: #353131;
+	margin-bottom: 20px;
+}
+
+
 footer{
 	border: 1px solid black;
 	column-count: 3;
@@ -76,5 +85,5 @@ footer div{
 	-webkit-column-width: 300px; 
 	-moz-column-width: 300px;
 	min-height: 100px; 
-	padding: 30px 80px;
+	padding: 10px 80px;
 }
