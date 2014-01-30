@@ -27,7 +27,9 @@
 			echo "<div id='wrapper'>";
 				echo "<div id='presentacion'>";
 					crearFormLogin();
-					echo "<p>
+					echo "
+					<h3 id=tparrafo>¿De qué se trata?</h3>
+					<p>
 						Base de conocimiento del I.E.S. Gran Capitán de Córdoba (España).<br/>
 						Esta aplicación alberga una gran cantidad de preguntas con sus respectivas respuestas
 						para el uso del profesorado y alumnado del centro.

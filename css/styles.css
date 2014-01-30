@@ -16,12 +16,13 @@ body{
 
 header{
 	border: 1px solid black;
-	min-height: 120px;
+	height: 120px;
 	padding: 10px;
-	background: -webkit-linear-gradient(left, white, orange);
-	background: -moz-linear-gradient(left, white, orange);
-	background: -o-linear-gradient(left, white, orange);
-	background: -ms-linear-gradient(left, white, orange);
+	background: linear-gradient(left, white 10%, #e06a02);
+	background: -webkit-linear-gradient(left, white 10%, #e06a02);
+	background: -moz-linear-gradient(left, white 10%, #e06a02);
+	background: -o-linear-gradient(left, white 10%, #e06a02);
+	background: -ms-linear-gradient(left, white 10%, #e06a02);
 	color: white;
 	text-shadow: 0px 0px 10px black;
 	border-radius: 100px 5px 0px 0px;
@@ -33,10 +34,12 @@ header figure{
 */
 	position: absolute;
 	margin-top: 5px;
+	outline: none;
 }
 
 header figure img{
 	border-radius: 60px 55px 10px 0px;
+	outline: none;
 }
 
 header h1{
@@ -51,15 +54,18 @@ header h1{
 	border: 1px solid black;
 }
 
-p{
-	border: 1px solid blue;
+#tparrafo{
+	margin-left: 60px;
+}
+p{	
+	margin-left: 60px;
 	width: 60%;
-	font-size: 35px;
+	font-size: 20px;
 }
 
 #formLogin{
-	border: 1px solid orange;
-	width: 30%;
+	border: 1px solid #e06a02;
+	width: 22%;
 	float: right;
 }
 
@@ -84,6 +90,6 @@ footer div{
 	column-width: 300px; 
 	-webkit-column-width: 300px; 
 	-moz-column-width: 300px;
-	min-height: 100px; 
-	padding: 10px 80px;
+	min-height: 150px; 
+	margin-left: 80px;
 }
