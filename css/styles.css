@@ -1,3 +1,7 @@
+html{
+	background: url('darktexture.png');
+}
+
 *{
 	margin: 0;
 	padding: 0;
@@ -8,10 +12,17 @@ li{
 	list-style: none;
 }
 
+a{
+	text-decoration: none;
+}
+
 body{
 	width: 1100px;
 	margin: 0 auto;
 	margin-top: 10px;
+	background: rgba(255,255,255,0.2);
+	border-radius: 100px 5px 0px 0px;
+	color: #fff;
 }
 
 header{
@@ -48,6 +59,11 @@ header h1{
 */
 	text-align: right;
 	padding: 40px;
+	font-family: 'Orbitron', sans-serif;
+}
+
+h1, h2, h3, h4{
+	font-family: 'Orbitron', sans-serif;
 }
 
 #wrapper{
@@ -61,6 +77,7 @@ p{
 	margin-left: 60px;
 	width: 60%;
 	font-size: 20px;
+	text-align: justify;
 }
 
 #formLogin{
@@ -83,6 +100,8 @@ footer{
 	column-count: 3;
 	-webkit-column-count: 3;
 	-moz-column-count: 3;
+	background: #e06a02;
+	color: #fff;
 }
 
 footer div{
@@ -93,3 +112,20 @@ footer div{
 	min-height: 150px; 
 	margin-left: 80px;
 }
+
+footer div ul{
+	padding: 0;
+}
+
+footer a{
+	color: #B6ACAC;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+}
+
+
+footer a:hover{
+	color: #fff;
+}
+
+

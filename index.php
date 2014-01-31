@@ -11,6 +11,7 @@
 		<link rel='stylesheet' type='text/css' href='./css/normalize.css'>
 		<link rel='stylesheet' type='text/css' href='./css/simple.css'>
 		<link rel='stylesheet' type='text/css' href='./css/styles.css'>
+		<link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
 		<script type='text/javascript' src='./js/jquery.pikachoose.js'></script>
 		<script type='text/javascript'>
