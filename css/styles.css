@@ -16,6 +16,19 @@ a{
 	text-decoration: none;
 }
 
+.botones{
+	background: #e06a02;
+	color: #fff;
+	border: 1px solid #e06a02;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.botones:hover{
+	background: rgba(255,255,255,0.2);
+	border: 1px solid #e06a02;
+}
+
 body{
 	width: 1100px;
 	margin: 0 auto;
@@ -26,7 +39,6 @@ body{
 }
 
 header{
-	border: 1px solid black;
 	height: 120px;
 	padding: 10px;
 	background: linear-gradient(left, white 10%, #e06a02);
@@ -67,7 +79,6 @@ h1, h2, h3, h4{
 }
 
 #wrapper{
-	border: 1px solid black;
 }
 
 #tparrafo{
@@ -81,9 +92,29 @@ p{
 }
 
 #formLogin{
-	border: 1px solid #e06a02;
-	width: 22%;
+	border-width: 3px 0px 3px 3px;
+	border-color: #e06a02;
+	border-style: solid;
 	float: right;
+	padding: 20px;
+	border-radius: 10px 0px 0px 10px;
+}
+
+#btnLogin{
+	margin-top: 10px;
+}
+
+#btnLogin *{
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	}
+
+#btnLogin a{
+	color: #fff;
+}
+
+#btnLogin a:hover{
+	color: #e06a02;
 }
 
 .pikachoose{
@@ -94,9 +125,13 @@ p{
 	margin-bottom: 20px;
 }
 
+#fieldRegistro{
+}
+
+.rcolumn{
+}
 
 footer{
-	border: 1px solid black;
 	column-count: 3;
 	-webkit-column-count: 3;
 	-moz-column-count: 3;

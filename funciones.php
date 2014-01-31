@@ -28,26 +28,29 @@
 	
 	function crearFormularioRegistro(){
 		echo "<form>
-				<fieldset>
+				<fieldset id='fieldRegistro'>
 					<legend>Registro de usuario</legend>
-						Nombre de usuario*<br/>
-						<input type='text' name='nickname' required/>
-						<br/>Nombre<br/>
-						<input type='text' name='nombre' />
-						<br/>Apellidos<br/>
-						<input type='text' name='apellidos' />
-						<br/>E-mail<br/>
-						<input type='email' name='email'>
-						<br/>Contraseña*<br/>
-						<input type='password' name='password' required/>
-						<br/>Confirmar contraseña<br/>
-						<input type='password' name='password2' required/>
-						<br/>Foto<br/>
-						<input type='file' name='foto'/>
+					<div class='rcolumn'>
+						<label for='nickname'>Nombre de usuario*</label><br/>
+						<input type='text' name='nickname' id='nickname' required/>
+						<br/><label for='nombre'>Nombre</label><br/>
+						<input type='text' name='nombre' id='nombre' />
+						<br/><label for='apellidos'>Apellidos</label><br/>
+						<input type='text' name='apellidos' id='apellidos' />
+						<br/><label for='email'>E-mail</label><br/>
+						<input type='email' name='email' id='email'>
+					<div class='rcolumn'>	
+						<label for='password'>Contraseña*</label><br/>
+						<input type='password' name='password' id='password' required/>
+						<br/><label for='password2'>Confirmar contraseña</label><br/>
+						<input type='password' name='password2' id='password2' required/>
+						<br/><label for='foto'>Foto</label><br/>
+						<input type='file' name='foto' id='foto'/>
 						<br/>
 						<input type='submit' name='registro' value='Registrar'/>
 						<input type='reset' name='limpiar' value='Limpiar'/>
-				<fieldset>
+					</div>
+				</fieldset>
 		</form>";
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
@@ -55,9 +58,9 @@
 	function crearSlider(){
 		echo "<div class='pikachoose'>
 				<ul id='pikame' >
-					<li><a href='http://www.pikachoose.com'><img src='img/gcap01.jpg'/></a><span>An example of each transition.</span></li>
-					<li><a href='http://www.pikachoose.com'><img src='img/gcap03.jpg'/></a><span>Any donation is appreciated. PikaChoose is free to use!</span></li>
-					<li><a href='http://www.pikachoose.com'><img src='img/blogcapitan.jpg'/></a><span>Be sure to check out <a href='http://www.pikachoose.com'>PikaChoose.com</a> for updates.</span></li>
+					<li><img src='img/gcap01.jpg'/></li>
+					<li><img src='img/gcap03.jpg'/></li>
+					<li><img src='img/blogcapitan.jpg'/></li>
 				</ul>
 			</div>";
 	}
