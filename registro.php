@@ -2,7 +2,8 @@
 	include "funciones.php";
 	include "conexion.php";
 
-	$datos = array(
+	function lanzarRegistro(){
+		$datos = array(
 		"nick"=>$_POST["nickname"],
 		"nombre"=>$_POST["nombre"],
 		"apellidos"=>$_POST["apellidos"],
@@ -12,26 +13,49 @@
 		"foto"=>$_POST["foto"]
 		);
 
-	if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["nick"]!=null && $datos["pass1"]!=null){
-		$db=conectaDb();
-		//lanzar consulta
-		$consulta="INSERT INTO Usuarios (id,foto,nombre,apellidos,email,nick,pass,perfil) values(NULL, 
-			'".$datos['foto']."','".
-			$datos['nombre']."','".
+		if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["nick"]!=null && $datos["pass1"]!=null){
+			$db=conectaDb();
+			//lanzar consulta
+			$consulta="INSERT INTO Usuarios (id,nombre,apellidos,email,nick,pass,perfil,activo) values(NULL, 
+			'".$datos['nombre']."','".
 			$datos['apellidos']."','".
 			$datos['email']."','".
 			$datos['nick']."','".
 			$datos['pass1']."',
-			'experto')";
-		$result=$db->prepare($consulta);
-		$result->execute();
-
-		//cierre
-		$db=null;
-	}else{
-		echo "Las contraseñas deben coincidir";
+			'experto',
+			0)";
+			$result=$db->prepare($consulta);
+			$result->execute();
+			
+			if($result){
+				guardarFotoPerfil($datos["nick"]);
+				echo "<h3>Se ha registrado correctamente. Por favor póngase en contacto con el administrador para recibir permisos de edición.</h3>";
+			}else{
+				echo "<h3 class='error'>Error: No ha podido registrarse. Revise los datos.".print_r($db->errorInfo())."</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
+			}
+			//cierre
+			$db=null;
+		}else{
+			echo "<h3 class='error'>Las contraseñas deben coincidir</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
+		}
 	}
 	
+	function guardarFotoPerfil($nick){
+		$directorio="./img/uploads/";
+
+		//añadir el nombre original con la extensión
+		$directorio=$directorio.basename($_FILES['foto']['name']);
+
+		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
+			$db=conectaDb();
+			$consulta = "UPDATE Usuarios SET 'foto' = '".$directorio."' WHERE 'nick'='".$nick."'";
+			$result=$db->prepare($consulta);
+			$result->execute();
+			$db=null;
+		}else{
+			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
+		}
+	}
 ?>
 
 <!doctype html>
@@ -48,7 +72,11 @@
 		<?php
 			crearHeader();
 			echo "<div id='wrapper'>";
+			if(!isset($_POST["registro"])){
 				crearFormularioRegistro();
+			}else{
+				lanzarRegistro();
+			}
 			echo "</div>";
 			crearFooter();
 		?>

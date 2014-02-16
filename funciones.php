@@ -27,7 +27,7 @@
 	}
 	
 	function crearFormularioRegistro(){
-		echo "<form action='registro.php' method='post'>
+		echo "<form action='registro.php' method='post' enctype='multipart/form-data'>
 				<fieldset id='fieldRegistro'>
 					<legend>Registro de usuario</legend>
 					<div class='rcolumn'>
@@ -45,7 +45,7 @@
 						<br/><label for='password2'>Confirmar contraseña</label><br/>
 						<input type='password' name='password2' id='password2' required/>
 						<br/><label for='foto'>Foto</label><br/>
-						<input type='file' name='foto' id='foto'/>
+						<input type='file' name='foto'/>
 						<br/>
 						<input type='submit' name='registro' value='Registrar'/>
 						<input type='reset' name='limpiar' value='Limpiar'/>
@@ -54,6 +54,7 @@
 		</form>";
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
+
 	
 	function crearSlider(){
 		echo "<div class='pikachoose'>
