@@ -43,7 +43,7 @@
 
 		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
 			$db=conectaDb();
-			$consulta = "UPDATE Usuarios SET 'foto' = '".$directorio."' WHERE 'nick'='".$nick."'";
+			$consulta = "update Usuarios set foto = '".$directorio."' where nick='".$nick."' ";
 			$result=$db->prepare($consulta);
 			$result->execute();
 			$db=null;
