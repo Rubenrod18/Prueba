@@ -16,16 +16,11 @@
 		if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["nick"]!=null && $datos["pass1"]!=null){
 			$db=conectaDb();
 			//lanzar consulta
-			$consulta="INSERT INTO Usuarios (id,nombre,apellidos,email,nick,pass,perfil,activo) values(NULL, 
-			'".$datos['nombre']."','".
-			$datos['apellidos']."','".
-			$datos['email']."','".
-			$datos['nick']."','".
-			$datos['pass1']."',
+			$consulta="INSERT INTO Usuarios (id,nombre,apellidos,email,nick,pass,perfil,activo) values(NULL, :nombre, :apellidos, :email, :nick, :pass1,
 			'experto',
 			0)";
 			$result=$db->prepare($consulta);
-			$result->execute();
+			$result->execute(array(":nombre"=>$datos['nombre'], ":apellidos"=>$datos['apellidos'], ":email"=>$datos['email'], ":nick"=>$datos['nick'], ":pass1"=>$datos['pass1']));
 			
 			if($result){
 				guardarFotoPerfil($datos["nick"]);
