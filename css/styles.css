@@ -160,6 +160,11 @@ p{
 	margin-left: 20px;
 }
 
+#fotoperfil img{
+	width: 150px;
+	height: 150px;
+}
+
 #datosperfil{
 	width: 50%;
 }

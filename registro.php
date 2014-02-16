@@ -1,6 +1,5 @@
 <?php
 	include "funciones.php";
-	include "conexion.php";
 
 	function lanzarRegistro(){
 		$datos = array(

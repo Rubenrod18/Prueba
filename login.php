@@ -3,12 +3,12 @@
 	aquí se procesarán los datos del usuario que intenta entrar en la web
 	*/
 
-	$results = 0;
-
 	//iniciarlizar sesión
 	session_start();
 	//importaciones de ficheros
-	include("conexion.php");
+	include("funciones.php");
+	
+	$results = 0;
 
 	//recoger datos del formulario de login
 	$user = $_POST["user"];
@@ -23,6 +23,12 @@
 	//la respuesta
 	if($result){
 		foreach ($result as $value) {
+			$_SESSION['user'] = $value['nick'];
+			$_SESSION['perfil'] = $value['perfil'];
+			$_SESSION['nombre'] = $value['nombre'];
+			$_SESSION['apellidos'] = $value['apellidos'];
+			$_SESSION['email'] = $value['email'];
+			$_SESSION['foto'] = $value['foto'];
 			$results++;
 		}
 	}else{

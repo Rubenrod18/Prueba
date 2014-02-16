@@ -1,5 +1,12 @@
 <?php
+	session_start();
+	
+	if(!isset($_SESSION['user'])){
+		header('Location: index.php');
+	}
 	include "funciones.php";
+	
+	$db = conectaDb();
 ?>
 
 <!doctype html>
@@ -25,6 +32,8 @@
 				crearTabs();
 			echo "</div>"; 
 			crearFooter();
+			
+			$db = null;
 		?>
 	</body>
 </html>
