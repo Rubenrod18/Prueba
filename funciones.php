@@ -27,7 +27,7 @@
 	}
 	
 	function crearFormularioRegistro(){
-		echo "<form>
+		echo "<form action='registro.php' method='post'>
 				<fieldset id='fieldRegistro'>
 					<legend>Registro de usuario</legend>
 					<div class='rcolumn'>
