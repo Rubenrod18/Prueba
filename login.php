@@ -23,6 +23,7 @@
 	//la respuesta
 	if($result){
 		foreach ($result as $value) {
+			$_SESSION['id'] = $value['id'];
 			$_SESSION['user'] = $value['nick'];
 			$_SESSION['perfil'] = $value['perfil'];
 			$_SESSION['nombre'] = $value['nombre'];

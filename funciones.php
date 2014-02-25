@@ -14,7 +14,7 @@
 	} 
 	 
 	function crearHeader(){
-		echo "<header>
+		echo "<header id='cabecera'>
 			<figure>
 				<a href='cerrarsesion.php'><img src='./img/logo.jpg'></a>
 			</figure>
@@ -104,11 +104,89 @@
 			</div>
 		</div>";
 	}
+
+	function lanzarRegistro(){
+		$datos = array(
+		"id"=>$_SESSION['id'],
+		"nombre"=>$_POST["nombre"],
+		"apellidos"=>$_POST["apellidos"],
+		"email"=>$_POST["email"],
+		"pass1"=>$_POST["password"],
+		"pass2"=>$_POST["password2"],
+		"foto"=>$_POST["foto"]
+		);
+
+		if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["pass1"]!=null){
+			$db=conectaDb();
+			//lanzar consulta
+			$consulta="UPDATE Usuarios set nombre = '" . $_POST['nombre'] . "',
+							apellidos = '" . $_POST['apellidos'] . "',
+							email = '" . $_POST['email'] . "',
+							pass = '" . $_POST['password'] . "'
+						where id='" . $_SESSION['id'] . "' ";
+			$result=$db->prepare($consulta);
+			$result->execute(array(":nombre"=>$datos['nombre'], ":apellidos"=>$datos['apellidos'], ":email"=>$datos['email'], ":pass1"=>$datos['pass1']));
+			
+			if($result){
+				guardarFotoPerfil($_SESSION['id']);
+			}else{
+				echo "<h3 class='error'>Error: No ha podido registrarse. Revise los datos.".print_r($db->errorInfo())."</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
+			}
+			//cierre
+			$db=null;
+		}else{
+			echo "<h3 class='error'>Las contraseñas deben coincidir</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
+		}
+	}
+	
+	function guardarFotoPerfil($nick){
+		$directorio="./img/uploads/";
+
+		//añadir el nombre original con la extensión
+		$directorio=$directorio.basename($_FILES['foto']['name']);
+
+		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
+			$db=conectaDb();
+			$consulta = "update Usuarios set foto = '".$directorio."' where id='".$nick."' ";
+			$result=$db->prepare($consulta);
+			$result->execute();
+			$db=null;
+
+			//crearheader();
+			echo "<div id='wrapper'>";
+			echo "<p>Los datos se han modificado correctamente, cuando vuelvas a iniciar sesión aparecerá tus nuevos datos. </p>";
+			echo "<a href='gestion.php'><input type='button' value='Volver'></a>";
+			echo "</div>";
+		}else{
+			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
+		}
+	}
+
+	function editarUsuario(){
+		echo "<form enctype='multipart/form-data'>
+				<h4>¿Quiere modificar algún dato?</h4>
+					<br/><label for='nombre'>Nombre</label><br/>
+					<input type='text' name='nombre' id='nombre' />
+					<br/><label for='apellidos'>Apellidos</label><br/>
+					<input type='text' name='apellidos' id='apellidos' />
+					<br/><label for='email'>E-mail</label><br/>
+					<input type='email' name='email' id='email'><br/>
+					<label for='password'>Contraseña*</label><br/>
+					<input type='password' name='password' id='password' required/>
+					<br/><label for='password2'>Confirmar contraseña</label><br/>
+					<input type='password' name='password2' id='password2' required/>
+					<br/><label for='foto'>Foto</label><br/>
+					<input type='file' name='foto'/>
+					<br/>
+					<button id='confirmod' class='botones'>Confirmar</button>
+		</form>";
+		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
+	}
 	
 	function crearTabs(){
+		$db = conectaDb();
 		echo "<div id='tabs'>";
 		if($_SESSION['perfil'] == 'experto'){
-			$db = conectaDb();
 			$activo = 1;
 
 			$consultaActivo = "SELECT * FROM Usuarios WHERE nick='" . $_SESSION['user'] . "'";
@@ -121,7 +199,7 @@
 				echo "No se ha podido conectar con la base de datos.";
 			}
 			
-			if($activo){
+			if(!$activo){
 				echo "<h3>
 					Su registro está pendiente de validación por un administrador, disculpe las molestias.
 				</h3>";
@@ -137,17 +215,16 @@
 					<div id='tabs-2'>
 						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
 					</div>
-					<div id='tabs-3'>
-						<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-					</div>";
+					<div id='tabs-3'>";
+						editarUsuario();
+					echo "</div>";
 			}
 		}else{
 			echo "<ul>
 					<li><a href='#tabs-1'>Últimas preguntas</a></li>
 					<li><a href='#tabs-2'>Agregar pregunta</a></li>
 					<li><a href='#tabs-3'>Gestión preguntas</a></li>
-					<li><a href='#tabs-4'>Gestión experiencia</a></li>
+					<li><a href='#tabs-4'>Gestión expertos</a></li>
 					<li><a href='#tabs-5'>Gestión categorías</a></li>
 					<li><a href='#tabs-6'>Perfil</a></li>
 					</ul>
@@ -158,9 +235,67 @@
 						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
 					</div>
 					<div id='tabs-3'>
-						<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+					<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
 						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-					</div>";
+					</div>
+					<div id='tabs-4'>
+						<fieldset>
+							<legend>Expertos pendientes activación</legend>
+							<form name='Factivacion' method='POST' action='activaexpertos.php'>
+								<div>
+									<label>Expertos: </label>
+									<select class='botones' name='expertosInactivos'>";
+										$consultaExpertosInact = "SELECT nick FROM Usuarios WHERE activo=0 and perfil='experto'";
+										$resultExpertosInact = $db->query($consultaExpertosInact);
+										foreach ($resultExpertosInact as $value)
+											echo "<option>".$value['nick']."</option>";
+									echo "</select>
+								</div>
+								<input class='botones' type='submit' value='Activar' >
+							</form>
+						</fieldset>
+						<fieldset>
+							<legend>Eliminar expertos</legend>
+							<form name='Feliminacion' method='POST' action='eliminaexpertos.php'>
+								<div>
+									<label>Expertos: </label>
+									<select class='botones' name='todosexpertos'>";
+										$consultaExpertos = "SELECT nick FROM Usuarios WHERE perfil='experto'";
+										$resultExpertos = $db->query($consultaExpertos);
+										foreach ($resultExpertos as $value)
+											echo "<option>".$value['nick']."</option>";
+									echo "</select>
+								</div>
+								<input class='botones' type='submit' value='Eliminar' >
+							</form>
+						</fieldset>
+					</div>
+					<div id='tabs-5'>";
+						$categorias = "SELECT * FROM Categorias";
+						$resultCateg = $db->query($categorias);
+
+					echo "<div id='contentListaCateg'>
+							<header><h4>Categorías</h4></header>
+							<ul id='listaCateg'>";
+								if($resultCateg){
+									foreach($resultCateg as $categoria){
+										echo "<li>" . $categoria['nombre'] . "<img id='" . $categoria['id'] . "' class='close' src='./img/close.png'></li>";
+									}
+								}
+						$db = null;		
+						echo "</ul>
+						</div>
+						<div id='contentCreaCateg'>
+							<form id='creaCateg'>
+								<label for='categoria'><h4>Crear nueva</h4></label><br/>
+								<input id='categoria' placeholder='Nombre de la categoría' type='text'><br/>
+								<button class='botones' id='newCateg'>Crear</button>
+							</form>
+						</div>
+					</div>
+					<div id='tabs-6'>";
+						editarUsuario();
+					echo"</div>";
 		}
 			
 		echo "</div>";

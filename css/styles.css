@@ -22,6 +22,8 @@ a{
 	border: 1px solid #e06a02;
 	padding: 5px;
 	border-radius: 5px;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
 }
 
 .botones:hover{
@@ -38,7 +40,7 @@ body{
 	color: #fff;
 }
 
-header{
+#cabecera{
 	height: 120px;
 	padding: 10px;
 	background: linear-gradient(left, white 10%, #e06a02);
@@ -51,7 +53,7 @@ header{
 	border-radius: 100px 5px 0px 0px;
 }
 
-header figure{
+#cabecera figure{
 /*
 	border: 1px solid black;
 */
@@ -60,15 +62,12 @@ header figure{
 	outline: none;
 }
 
-header figure img{
+#cabecera figure img{
 	border-radius: 60px 55px 10px 0px;
 	outline: none;
 }
 
-header h1{
-/*
-	border: 1px solid black;
-*/
+#cabecera h1{
 	text-align: right;
 	padding: 40px;
 	font-family: 'Orbitron', sans-serif;
@@ -180,6 +179,52 @@ p{
 
 #tabs{
 	width: 50%;
+}
+
+#contentListaCateg, #contentCreaCateg{
+	width: 45%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#contentListaCateg #listaCateg{
+	padding: 0;
+	margin: 0;
+}
+
+#contentListaCateg ul li{
+	position: relative;
+	animation: animacionEntrada 1s;
+	-webkit-animation: animacionEntrada 1s;
+}
+
+#contentListaCateg ul li img{
+	width: 20px;
+	height: 30px;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+
+#contentListaCateg ul li img:hover{
+	cursor: pointer;
+}
+
+@keyframes animacionEntrada{
+	0%{left: 50px;}
+	100%{left: 0px;}
+}
+
+@-webkit-keyframes animacionEntrada{
+	0%{left: 50px;}
+	100%{left: 0px;}
+}
+
+#contentCreaCateg label h4{
+	margin-bottom: 0px;
+}
+
+#contentCreaCateg .botones:hover{
+	color: #4C3838;
 }
 
 footer{
