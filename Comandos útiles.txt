@@ -10,3 +10,5 @@ comandos útiles:
 -hacer push: git push [dirección web de github]
 
 -sincronizar el repositorio: git pull origin
+
+-Para borrar un branch remotamente: git push origin :nombre_branch_a_eliminar
