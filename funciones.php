@@ -5,13 +5,15 @@
 	 
 	function conectaDb()
 	{
+		$params = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
+
 		try{
-			$db = new PDO("mysql:host=localhost;dbname=SabioGC", "usuarios", "us_161213");
+			$db = new PDO("mysql:host=localhost;dbname=SabioGC", "usuarios", "us_161213", $params);
 			return($db);
 		}catch(PDOException $e){
 			echo "No se ha podido conectar a la BD";
 		}
-	} 
+	}
 	 
 	function crearHeader(){
 		echo "<header id='cabecera'>
@@ -105,62 +107,6 @@
 		</div>";
 	}
 
-	function lanzarRegistro(){
-		$datos = array(
-		"id"=>$_SESSION['id'],
-		"nombre"=>$_POST["nombre"],
-		"apellidos"=>$_POST["apellidos"],
-		"email"=>$_POST["email"],
-		"pass1"=>$_POST["password"],
-		"pass2"=>$_POST["password2"],
-		"foto"=>$_POST["foto"]
-		);
-
-		if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["pass1"]!=null){
-			$db=conectaDb();
-			//lanzar consulta
-			$consulta="UPDATE Usuarios set nombre = '" . $_POST['nombre'] . "',
-							apellidos = '" . $_POST['apellidos'] . "',
-							email = '" . $_POST['email'] . "',
-							pass = '" . $_POST['password'] . "'
-						where id='" . $_SESSION['id'] . "' ";
-			$result=$db->prepare($consulta);
-			$result->execute(array(":nombre"=>$datos['nombre'], ":apellidos"=>$datos['apellidos'], ":email"=>$datos['email'], ":pass1"=>$datos['pass1']));
-			
-			if($result){
-				guardarFotoPerfil($_SESSION['id']);
-			}else{
-				echo "<h3 class='error'>Error: No ha podido registrarse. Revise los datos.".print_r($db->errorInfo())."</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
-			}
-			//cierre
-			$db=null;
-		}else{
-			echo "<h3 class='error'>Las contraseñas deben coincidir</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
-		}
-	}
-	
-	function guardarFotoPerfil($nick){
-		$directorio="./img/uploads/";
-
-		//añadir el nombre original con la extensión
-		$directorio=$directorio.basename($_FILES['foto']['name']);
-
-		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
-			$db=conectaDb();
-			$consulta = "update Usuarios set foto = '".$directorio."' where id='".$nick."' ";
-			$result=$db->prepare($consulta);
-			$result->execute();
-			$db=null;
-
-			//crearheader();
-			echo "<div id='wrapper'>";
-			echo "<p>Los datos se han modificado correctamente, cuando vuelvas a iniciar sesión aparecerá tus nuevos datos. </p>";
-			echo "<a href='gestion.php'><input type='button' value='Volver'></a>";
-			echo "</div>";
-		}else{
-			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
-		}
-	}
 
 	function editarUsuario(){
 		echo "<form enctype='multipart/form-data'>
@@ -271,7 +217,7 @@
 						</fieldset>
 					</div>
 					<div id='tabs-5'>";
-						$categorias = "SELECT * FROM Categorias";
+						$categorias = "SELECT * FROM Categorias ORDER BY id DESC";
 						$resultCateg = $db->query($categorias);
 
 					echo "<div id='contentListaCateg'>
