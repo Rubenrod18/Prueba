@@ -4,18 +4,25 @@ Aquí se activarán los expertos que están pendiente de activación
 */
 include"funciones.php";
 
-$user = $_POST['expertosInactivos'];
-
+$idExpertoActivar = $_GET['idExpertoActivar'];
 $db=conectaDB();
-$consulta = "UPDATE Usuarios SET activo=1 WHERE nick=:nick";
+
+/*para actualizar el estado del experto*/
+$consulta = "UPDATE Usuarios SET activo=1 WHERE id=:id";
 $result=$db->prepare($consulta);
-$result->execute(array(":nick"=>$user));
+$result->execute(array(":id"=>$idExpertoActivar));
 
 if(!$result){
 	return "ha habido un problema en la BD";
 }
 else{
-	header("Location: gestion.php");
+	//volver a listar a los usuarios inactivos
+	$consultaExpertos = "SELECT nick FROM Usuarios WHERE activo=0";
+	$resultListar = $db->query($consultaExpertos);
+	if($resultListar){
+		foreach ($resultListar as $value)
+			echo "<li><img id='".$value['id']."' class='close' src='./img/check33.svg'>".$value['nick']."</li>";
+	}
 }
 
 $db=null;

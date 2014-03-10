@@ -30,6 +30,7 @@
 			$_SESSION['apellidos'] = $value['apellidos'];
 			$_SESSION['email'] = $value['email'];
 			$_SESSION['foto'] = $value['foto'];
+			$_SESSION['activo'] = $value['activo'];
 			$results++;
 		}
 	}else{

@@ -97,31 +97,47 @@
 			</div>
 			<div id='categperfil'>
 				<h3>Categorías</h3>
-				<ul>
-					<li>Categoría 1</li>
-					<li>Categoría 2</li>
-				</ul>
+				<ul>";
+					if( $_SESSION['activo'] == 1 ){
+						$db = conectaDb();
+						// Sacamos las consulta para la categoria asociada al usuario
+						$consultaCategoria = 'select idCategoria from RCU where idUsuario = '.$_SESSION['id'];
+						$resultadoCategorias = $db->query($consultaCategoria);
+
+						foreach($resultadoCategorias as $value){
+							$id = $value['idCategoria']; // Obtengo la categoria
+							// Muestro el nombre de la categoria a través de su ID
+							$consultaNombreCategoria = "select nombre from Categorias where id = $id";
+							$resultadoNombreCategorias = $db->query($consultaNombreCategoria);
+							foreach($resultadoNombreCategorias as $value){
+								echo "<li>" . $value['nombre'] . "</li>";
+							}
+						}
+					}
+
+		echo "</ul>
 			</div>
 		</div>";
+		
 	}
 
 	function editarUsuario(){
-		echo "<form id='formedituser' name='formedituser' enctype='multipart/form-data' method='post' action='modificaexperto.php'>
+		echo "<form enctype='multipart/form-data'>
 				<h4>¿Quiere modificar algún dato?</h4>
 					<br/><label for='nombre'>Nombre</label><br/>
-					<input type='text' name='nombre' id='editnombre' />
+					<input type='text' name='nombre' id='nombre' />
 					<br/><label for='apellidos'>Apellidos</label><br/>
-					<input type='text' name='apellidos' id='editapellidos' />
+					<input type='text' name='apellidos' id='apellidos' />
 					<br/><label for='email'>E-mail</label><br/>
-					<input type='email' name='email' id='editemail'><br/>
+					<input type='email' name='email' id='email'><br/>
 					<label for='password'>Contraseña*</label><br/>
-					<input type='password' name='password' id='editpassword'/>
+					<input type='password' name='password' id='password' required/>
 					<br/><label for='password2'>Confirmar contraseña</label><br/>
-					<input type='password' name='password2' id='editpassword2'/>
-					<br/><label for='editfoto'>Foto</label><br/>
-					<input id='editfoto' type='file' name='editfoto'/>
+					<input type='password' name='password2' id='password2' required/>
+					<br/><label for='foto'>Foto</label><br/>
+					<input type='file' name='foto'/>
 					<br/>
-					<input type='submit' id='confirmod' class='botones' value='Confirmar'>
+					<button id='confirmod' class='botones'>Confirmar</button>
 		</form>";
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
