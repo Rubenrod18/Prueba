@@ -5,15 +5,13 @@
 	 
 	function conectaDb()
 	{
-		$params = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-
 		try{
-			$db = new PDO("mysql:host=localhost;dbname=SabioGC", "usuarios", "us_161213", $params);
+			$db = new PDO("mysql:host=localhost;dbname=SabioGC", "usuarios", "us_161213");
 			return($db);
 		}catch(PDOException $e){
 			echo "No se ha podido conectar a la BD";
 		}
-	}
+	} 
 	 
 	function crearHeader(){
 		echo "<header id='cabecera'>
@@ -107,7 +105,6 @@
 		</div>";
 	}
 
-<<<<<<< HEAD
 	function editarUsuario(){
 		echo "<form id='formedituser' name='formedituser' enctype='multipart/form-data' method='post' action='modificaexperto.php'>
 				<h4>¿Quiere modificar algún dato?</h4>
@@ -145,8 +142,6 @@
 			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
 		}
 	}
-=======
->>>>>>> 61f2825ab09d7deeb80b1c843cb9004a5b35f5f5
 
 	function agregarPregunta(){
 		echo "<div id='introPregunta'>
@@ -282,7 +277,7 @@
 						</fieldset>
 					</div>
 					<div id='tabs-5'>";
-						$categorias = "SELECT * FROM Categorias ORDER BY id DESC";
+						$categorias = "SELECT * FROM Categorias";
 						$resultCateg = $db->query($categorias);
 
 					echo "<div id='contentListaCateg'>
