@@ -33,23 +33,6 @@
 			echo "<h3 class='error'>Las contraseñas deben coincidir</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
 		}
 	}
-	
-	function guardarFotoPerfil($nick){
-		$directorio="./img/uploads/";
-
-		//añadir el nombre original con la extensión
-		$directorio=$directorio.basename($_FILES['foto']['name']);
-
-		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
-			$db=conectaDb();
-			$consulta = "update Usuarios set foto = '".$directorio."' where nick='".$nick."' ";
-			$result=$db->prepare($consulta);
-			$result->execute();
-			$db=null;
-		}else{
-			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
-		}
-	}
 ?>
 
 <!doctype html>

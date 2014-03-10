@@ -105,40 +105,27 @@
 		</div>";
 	}
 
-	function lanzarRegistro(){
-		$datos = array(
-		"id"=>$_SESSION['id'],
-		"nombre"=>$_POST["nombre"],
-		"apellidos"=>$_POST["apellidos"],
-		"email"=>$_POST["email"],
-		"pass1"=>$_POST["password"],
-		"pass2"=>$_POST["password2"],
-		"foto"=>$_POST["foto"]
-		);
-
-		if(strcmp($datos["pass1"],$datos["pass2"])==0 && $datos["pass1"]!=null){
-			$db=conectaDb();
-			//lanzar consulta
-			$consulta="UPDATE Usuarios set nombre = '" . $_POST['nombre'] . "',
-							apellidos = '" . $_POST['apellidos'] . "',
-							email = '" . $_POST['email'] . "',
-							pass = '" . $_POST['password'] . "'
-						where id='" . $_SESSION['id'] . "' ";
-			$result=$db->prepare($consulta);
-			$result->execute(array(":nombre"=>$datos['nombre'], ":apellidos"=>$datos['apellidos'], ":email"=>$datos['email'], ":pass1"=>$datos['pass1']));
-			
-			if($result){
-				guardarFotoPerfil($_SESSION['id']);
-			}else{
-				echo "<h3 class='error'>Error: No ha podido registrarse. Revise los datos.".print_r($db->errorInfo())."</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
-			}
-			//cierre
-			$db=null;
-		}else{
-			echo "<h3 class='error'>Las contraseñas deben coincidir</h3><a class='boton' href='registro.php' target='_self'>Volver</a>";
-		}
+	function editarUsuario(){
+		echo "<form id='formedituser' name='formedituser' enctype='multipart/form-data' method='post' action='modificaexperto.php'>
+				<h4>¿Quiere modificar algún dato?</h4>
+					<br/><label for='nombre'>Nombre</label><br/>
+					<input type='text' name='nombre' id='editnombre' />
+					<br/><label for='apellidos'>Apellidos</label><br/>
+					<input type='text' name='apellidos' id='editapellidos' />
+					<br/><label for='email'>E-mail</label><br/>
+					<input type='email' name='email' id='editemail'><br/>
+					<label for='password'>Contraseña*</label><br/>
+					<input type='password' name='password' id='editpassword'/>
+					<br/><label for='password2'>Confirmar contraseña</label><br/>
+					<input type='password' name='password2' id='editpassword2'/>
+					<br/><label for='editfoto'>Foto</label><br/>
+					<input id='editfoto' type='file' name='editfoto'/>
+					<br/>
+					<input type='submit' id='confirmod' class='botones' value='Confirmar'>
+		</form>";
+		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
-	
+
 	function guardarFotoPerfil($nick){
 		$directorio="./img/uploads/";
 
@@ -147,40 +134,59 @@
 
 		if(move_uploaded_file($_FILES['foto']['tmp_name'], $directorio)) {
 			$db=conectaDb();
-			$consulta = "update Usuarios set foto = '".$directorio."' where id='".$nick."' ";
+			$consulta = "update Usuarios set foto = '".$directorio."' where nick='".$nick."' ";
 			$result=$db->prepare($consulta);
 			$result->execute();
 			$db=null;
-
-			//crearheader();
-			echo "<div id='wrapper'>";
-			echo "<p>Los datos se han modificado correctamente, cuando vuelvas a iniciar sesión aparecerá tus nuevos datos. </p>";
-			echo "<a href='gestion.php'><input type='button' value='Volver'></a>";
-			echo "</div>";
 		}else{
 			echo "Hubo un error al subir la imagen, por favor inténtelo de nuevo.";
 		}
 	}
 
-	function editarUsuario(){
-		echo "<form enctype='multipart/form-data'>
-				<h4>¿Quiere modificar algún dato?</h4>
-					<br/><label for='nombre'>Nombre</label><br/>
-					<input type='text' name='nombre' id='nombre' />
-					<br/><label for='apellidos'>Apellidos</label><br/>
-					<input type='text' name='apellidos' id='apellidos' />
-					<br/><label for='email'>E-mail</label><br/>
-					<input type='email' name='email' id='email'><br/>
-					<label for='password'>Contraseña*</label><br/>
-					<input type='password' name='password' id='password' required/>
-					<br/><label for='password2'>Confirmar contraseña</label><br/>
-					<input type='password' name='password2' id='password2' required/>
-					<br/><label for='foto'>Foto</label><br/>
-					<input type='file' name='foto'/>
-					<br/>
-					<button id='confirmod' class='botones'>Confirmar</button>
-		</form>";
-		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
+	function agregarPregunta(){
+		echo "<div id='introPregunta'>
+			<form method='post' id='formPregunta'>
+				<div id='divPregunta'>
+					<h4>
+						Pregunta
+					</h4>
+					<input type='text' id='pregunta' name='pregunta' placeholder='Escribir la pregunta'>
+					<div id='divcateg'>
+						<h4>
+							Categoría
+						</h4>
+						<select id='selectCategoria' class='select'>
+						</select>
+					</div>
+					<div id='divdificultad'>
+						<h4>
+							Dificultad
+						</h4>
+						<select id='selectDificultad' class='select'>
+							<option>Facil</option>
+							<option>Intermedio</option>
+							<option>Dificil</option>
+						</select>
+					</div>
+				</div>
+				<div id='divBotonesRespuesta'>
+					<h4>
+						Respuestas
+					</h4>
+					<button id='btnIn' class='botones'>Agregar incorrecta</button>
+					<button id='btnCo' class='botones'>Agregar correcta</button>
+				</div>
+				<div id='divRespuestaIncorrecta'>
+					<input type='text' id='respuestaIn' name='respuestaIn' placeholder='Respuesta incorrecta'><a id='tickIn' class='icon-tick'></a>
+				</div>
+				<div id='divRespuestaCorrecta'>
+					<input type='text' id='respuestaCo' name='respuestaCo' placeholder='Respuesta correcta'><a id='tickCo' class='icon-tick'></a>
+					<span id='resCoCreada'></span>
+				</div>
+				<input type='button' class='botones' value='Agregar respuestas' id='btnPregRes' name='btnPregRes'>
+				<input type='button' class='botones' value='Hecho' id='btnHecho' name='btnPregRes'>
+			</form>
+		</div>";
 	}
 	
 	function crearTabs(){
@@ -205,35 +211,35 @@
 				</h3>";
 			}else{
 				echo "<ul>
-					<li><a href='#tabs-1'>Últimas preguntas</a></li>
-					<li><a href='#tabs-2'>Agregar pregunta</a></li>
+					<li><a class='ultPreg' href='#tabs-1'>Últimas preguntas</a></li>
+					<li class='agrPregunta'><a href='#tabs-2'>Agregar pregunta</a></li>
 					<li><a href='#tabs-3'>Perfil</a></li>
 					</ul>
 					<div id='tabs-1'>
-						<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+						
 					</div>
-					<div id='tabs-2'>
-						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-					</div>
+					<div id='tabs-2'>";
+						agregarPregunta();
+					echo "</div>
 					<div id='tabs-3'>";
 						editarUsuario();
 					echo "</div>";
 			}
 		}else{
 			echo "<ul>
-					<li><a href='#tabs-1'>Últimas preguntas</a></li>
-					<li><a href='#tabs-2'>Agregar pregunta</a></li>
+					<li><a class='ultPreg' href='#tabs-1'>Últimas preguntas</a></li>
+					<li class='agrPregunta'><a href='#tabs-2'>Agregar pregunta</a></li>
 					<li><a href='#tabs-3'>Gestión preguntas</a></li>
 					<li><a href='#tabs-4'>Gestión expertos</a></li>
 					<li><a href='#tabs-5'>Gestión categorías</a></li>
 					<li><a href='#tabs-6'>Perfil</a></li>
 					</ul>
 					<div id='tabs-1'>
-						<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+						
 					</div>
-					<div id='tabs-2'>
-						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-					</div>
+					<div id='tabs-2'>";
+						agregarPregunta();
+					echo "</div>
 					<div id='tabs-3'>
 					<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
 						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>

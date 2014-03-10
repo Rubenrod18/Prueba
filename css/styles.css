@@ -1,3 +1,29 @@
+@font-face{
+font-family: icons;
+src: url(../fonts/tick.ttf);
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+   font-family: 'icons';
+   font-style: normal;
+   speak: none;
+   font-weight: normal;
+   -webkit-font-smoothing: antialiased;
+           font-smoothing: antialiased;
+   text-rendering: optimizeLegibility;
+   font-size: 40px;
+}
+
+.icon-tick:before{
+	content: "\e000";
+}
+
+.icon-tick:hover{
+	cursor:pointer;
+	color: #e06a02;
+}
+
 html{
 	background: url('darktexture.png');
 }
@@ -16,7 +42,7 @@ a{
 	text-decoration: none;
 }
 
-.botones{
+.botones, .select:hover, .select:focus{
 	background: #e06a02;
 	color: #fff;
 	border: 1px solid #e06a02;
@@ -26,9 +52,14 @@ a{
 	-webkit-transition: all 0.5s;
 }
 
-.botones:hover{
+.botones:hover, .select{
 	background: rgba(255,255,255,0.2);
 	border: 1px solid #e06a02;
+	color: #e06a02;
+	padding: 5px;
+	border-radius: 5px;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
 }
 
 body{
@@ -227,6 +258,45 @@ p{
 	color: #4C3838;
 }
 
+#btnHecho{
+	display: none;
+}
+
+#divPregunta, #divBotonesRespuesta{
+	margin-bottom: 30px;
+}
+
+#divBotonesRespuesta{
+	display : none;
+}
+
+#pregunta, #respuestaIn, #respuestaCo{
+	width: 100%;
+	height: 30px;
+}
+
+#respuestaIn, #respuestaCo{
+	width: 90%;
+}
+
+#divRespuestaIncorrecta, #divRespuestaCorrecta{
+	margin-bottom: 30px;
+	display: none;
+}
+
+#divcateg, #divdificultad{
+	width: 49%;
+	display: inline-block;
+}
+
+div > select{
+	width: 100%;
+}
+
+div > select:hover{
+	cursor: pointer;
+}
+
 footer{
 	column-count: 3;
 	-webkit-column-count: 3;
@@ -258,5 +328,4 @@ footer a{
 footer a:hover{
 	color: #fff;
 }
-
 

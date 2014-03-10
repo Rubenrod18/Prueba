@@ -2,7 +2,7 @@
 /*
 Aquí se activarán los expertos que están pendiente de activación
 */
-include"conexion.php";
+include"funciones.php";
 
 $user = $_POST['expertosInactivos'];
 

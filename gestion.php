@@ -7,6 +7,9 @@
 	include "funciones.php";
 	
 	$db = conectaDb();
+	if(isset($_SESSION['fotoedit'])){
+		$_SESSION['foto'] = $_SESSION['fotoedit'];
+	}
 ?>
 
 <!doctype html>
@@ -20,7 +23,7 @@
 		<link rel='stylesheet' type='text/css' href='./css/styles.css'>
 		<link rel='stylesheet' type='text/css' href='./css/jquery-ui-custom.css'>
 		<link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
-		<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
+		<script type="text/javascript" src="./js/jquery-2.0.3.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui-custom.js"></script>
 		<script type="text/javascript" src="./js/implement.js"></script>
 	</head>
