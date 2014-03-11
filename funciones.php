@@ -42,31 +42,31 @@
 	}
 	
 	function crearFormularioRegistro(){
-		echo "<form action='registro.php' method='post' enctype='multipart/form-data'>
-				<fieldset id='fieldRegistro'>
-					<legend>Registro de usuario</legend>
-					<div class='rcolumn'>
-						<label for='nickname'>Nombre de usuario*</label><br/>
-						<input type='text' name='nickname' id='nickname' required/>
-						<br/><label for='nombre'>Nombre</label><br/>
-						<input type='text' name='nombre' id='nombre' />
-						<br/><label for='apellidos'>Apellidos</label><br/>
-						<input type='text' name='apellidos' id='apellidos' />
-						<br/><label for='email'>E-mail</label><br/>
-						<input type='email' name='email' id='email'>
-					<div class='rcolumn'>	
-						<label for='password'>Contraseña*</label><br/>
-						<input type='password' name='password' id='password' required/>
-						<br/><label for='password2'>Confirmar contraseña</label><br/>
-						<input type='password' name='password2' id='password2' required/>
-						<br/><label for='foto'>Foto</label><br/>
-						<input type='file' name='foto'/>
-						<br/>
-						<input type='submit' name='registro' value='Registrar'/>
-						<input type='reset' name='limpiar' value='Limpiar'/>
+		echo "<form id='formReg' action='registro.php' method='post' enctype='multipart/form-data'>
+					<h3 id='tformReg'>Registro</h3>
+					<div id='divformReg'>
+						<div id='divReg1'>
+							<label for='nickname'><h5>Nombre de usuario*</h5></label>
+							<input type='text' name='nickname' id='nickname' required/>
+							<label for='nombre'><h5>Nombre</h5></label>
+							<input type='text' name='nombre' id='nombre'/>
+							<label for='apellidos'><h5>Apellidos</h5></label>
+							<input type='text' name='apellidos' id='apellidos' />
+							<label for='email'><h5>E-mail</h5></label>
+							<input type='email' name='email' id='email'>
+						</div>
+						<div id='divReg2'>
+							<label for='password'><h5>Contraseña*</h5></label>
+							<input type='password' name='password' id='password' required/>
+							<label for='password2'><h5>Confirmar contraseña</h5></label>
+							<input type='password' name='password2' id='password2' required/>
+							<label for='foto'><h5>Foto</h5></label>
+							<input type='file' name='foto'/>
+							<input class='botones' type='submit' name='registro' value='Registrar'/>
+							<input class='botones' type='reset' name='limpiar' value='Limpiar'/>
+						</div>
 					</div>
-				</fieldset>
-		</form>";
+				</form>";
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
 	
@@ -129,7 +129,7 @@
 		$consultaCategoria = 'select id,nombre from Categorias';
 		$resultadoCategorias = $db->query($consultaCategoria);
 
-		echo 'Selecciona la categoria a seguir:<select id="categoria_seguir">';
+		echo '¿Eres experto en alguna de estas materias?<select class="select" id="categoria_seguir">';
 		foreach($resultadoCategorias as $value){
 			echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
 		}
