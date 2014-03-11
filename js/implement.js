@@ -13,7 +13,6 @@ $(function(){
 		});
 	});
 
-
 	$('.agrPregunta').on('click', function(){
 		$.get("listarcategorias.php", function(respuesta){
 			$("#selectCategoria").html(respuesta);
@@ -139,7 +138,7 @@ $(function(){
 
 	$('.ultPreg').on('click', function(e){
 		$.get("ultimaspreguntas.php", function(respuesta){
-			$("#tabs-1").html(respuesta);
+			$("#preguntas").html(respuesta);
 		});
 	});
 
@@ -168,10 +167,16 @@ $(function(){
 	});
 
 	// AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-	$('#categoria_seguir').on('click', function(){
-		$.get("seguirCategoria.php", {value : $(this).prop('value')}, function(respuesta){
-			$("#mostrarCategorias").html(respuesta);
+    $('#categoria_seguir').on('click', function(){
+        $.get("seguirCategoria.php", {value : $(this).prop('value')}, function(respuesta){
+            $("#mostrarCategorias").html(respuesta);
+        });
+    });
+    // -------------------------------------------
+
+	$('#buscaenunciado').on('keyup', function(){
+		$.get("buscaenunciado.php", {enunciado : $(this).val()}, function(respuesta){
+			$("#preguntas").html(respuesta);
 		});
 	});
-	// --------------------------------------------------------------------------------------
 });	

@@ -113,30 +113,30 @@
 							}
 						}
 					}
-			// AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-				echo "</ul>";
-				mostrarCategorias();
-			echo "</div>
-		</div>";
-			// ----------------------------------------------------------------
-	}
-
-	// AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-	function mostrarCategorias(){
-
-		$db = conectaDb();
-		// Sacamos las consulta para la categoria asociada al usuario
-		$consultaCategoria = 'select id,nombre from Categorias';
-		$resultadoCategorias = $db->query($consultaCategoria);
-
-		echo '¿Eres experto en alguna de estas materias?<select class="select" id="categoria_seguir">';
-		foreach($resultadoCategorias as $value){
-			echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
-		}
-		echo '</select>';
-
-	}
-	// --------------------------------------------------------------------------------------
+				 // AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+                echo "</ul>";
+                mostrarCategorias();
+            echo "</div>
+        </div>";
+            // ----------------------------------------------------------------
+    }
+ 
+    // AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    function mostrarCategorias(){
+ 
+        $db = conectaDb();
+        // Sacamos las consulta para la categoria asociada al usuario
+        $consultaCategoria = 'select id,nombre from Categorias';
+        $resultadoCategorias = $db->query($consultaCategoria);
+ 
+        echo '¿Eres experto en alguna de estas materias?<select class="select" id="categoria_seguir">';
+        foreach($resultadoCategorias as $value){
+            echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
+        }
+        echo '</select>';
+ 
+    }
+    // ----------------------------------------
 
 	function editarUsuario(){
 		echo "<form id='formedituser' name='formedituser' enctype='multipart/form-data' method='post' action='modificaexperto.php'>
@@ -282,12 +282,12 @@
 											foreach ($resultF as $valueF) {
 												echo "<li>" . $valueF['texto'] . "</li>";
 											}
-										} // foreach
-									} // foreach
-								} // if
+										}
+									}
+								}
 							echo "</ul>
 						</div>";
-					} // foreach	
+					}	
 				}
 			}
 
@@ -339,9 +339,12 @@
 					<li class='agrPregunta'><a href='#tabs-2'>Agregar pregunta</a></li>
 					<li><a href='#tabs-3'>Perfil</a></li>
 					</ul>
-					<div id='tabs-1'>";
+					<div id='tabs-1'>
+						<h4>Búsqueda filtrada</h4>
+					<input type='text' placeholder='Búsqueda por enunciado' id='buscaenunciado'>
+					<div id='preguntas'>";
 						mostrarUltimas();
-					echo "</div>
+					echo "</div></div>
 					<div id='tabs-2'>";
 						agregarPregunta();
 					echo "</div>
@@ -358,9 +361,12 @@
 					<li><a href='#tabs-5'>Gestión categorías</a></li>
 					<li><a href='#tabs-6'>Perfil</a></li>
 					</ul>
-					<div id='tabs-1'>";
+					<div id='tabs-1'>
+					<h4>Búsqueda filtrada</h4>
+					<input type='text' placeholder='Búsqueda por enunciado' id='buscaenunciado'>
+					<div id='preguntas'>";
 						mostrarUltimas();
-					echo "</div>
+					echo "</div></div>
 					<div id='tabs-2'>";
 						agregarPregunta();
 					echo "</div>
