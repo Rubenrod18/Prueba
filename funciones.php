@@ -88,19 +88,32 @@
 			</figure>
 			<div id='datosperfil'>
 				<ul>
-					<li><strong>Nombre de usuario:</strong> " . $_SESSION['user'] . "</li>
-					<li><strong>Nombre:</strong><br/> " . $_SESSION['nombre'] . "</li>
-					<li><strong>Apellidos:</strong> " . $_SESSION['apellidos'] . "</li>
-					<li><strong>E-mail:</strong> " . $_SESSION['email'] . "</li>
-					<li><strong>Perfil:</strong> " . $_SESSION['perfil'] . "</li>
+					<li><strong>" . $_SESSION['user'] . "</strong></li>
+					<li>" . $_SESSION['nombre'] . " " . $_SESSION['apellidos'] . "</li>
+					<li>" . $_SESSION['email'] . "</li>
+					<li>Perfil: " . $_SESSION['perfil'] . "</li>
 				</ul>
 			</div>
 			<div id='categperfil'>
 				<h3>Categorías</h3>
-				<ul>
-					<li>Categoría 1</li>
-					<li>Categoría 2</li>
-				</ul>
+				<ul>";
+					if( $_SESSION['activo'] == 1 ){
+						$db = conectaDb();
+						// Sacamos las consulta para la categoria asociada al usuario
+						$consultaCategoria = 'select idCategoria from RCU where idUsuario = '.$_SESSION['id'];
+						$resultadoCategorias = $db->query($consultaCategoria);
+
+						foreach($resultadoCategorias as $value){
+							$id = $value['idCategoria']; // Obtengo la categoria
+							// Muestro el nombre de la categoria a través de su ID
+							$consultaNombreCategoria = "select nombre from Categorias where id = $id";
+							$resultadoNombreCategorias = $db->query($consultaNombreCategoria);
+							foreach($resultadoNombreCategorias as $value){
+								echo "<li>" . $value['nombre'] . "</li>";
+							}
+						}
+					}
+				echo "</ul>
 			</div>
 		</div>";
 	}
@@ -261,6 +274,23 @@
 
 		$db = null;
 	}
+
+	function gestionPregunta(){
+		echo "<h4>Preguntas</h4>";
+
+		//if( $_SESSION['activo'] == 1 ){
+			$db = conectaDb();
+			// Sacamos las consulta para las preguntas
+			$consultaPreguntas = 'select id, enunciado from Preguntas';
+			$resultadoPreguntas = $db->query($consultaPreguntas);
+			echo '<ul id="listaPre">';
+			foreach($resultadoPreguntas as $value){
+				echo "<li><a id='". $value['id'] ."' class='close2'><img src='./img/close.png' class='close'></a>" . $value['enunciado'] . "</li>";
+			}
+			echo '</ul>';
+			
+		//}
+	}
 	
 	function crearTabs(){
 		$db = conectaDb();
@@ -313,10 +343,9 @@
 					<div id='tabs-2'>";
 						agregarPregunta();
 					echo "</div>
-					<div id='tabs-3'>
-					<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-					</div>
+					<div id='tabs-3'>";
+						gestionPregunta();
+					echo "</div>
 					<div id='tabs-4'>";
 						gestionExpertos();
 					echo "</div>

@@ -168,7 +168,7 @@ p{
 }
 
 #contenedorPerfil{
-	width: 40%;
+	width: 25%;
 	background: #FEEEBD;
 	color: #383838;
 	border-radius: 5px;
@@ -184,19 +184,22 @@ p{
 }
 
 #fotoperfil{
-	width: 150px;
-	height: 150px;
-	border: 1px solid black;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #5B3C3C;
+	border-radius: 5px;
 	margin-left: 20px;
 }
 
 #fotoperfil img{
-	width: 150px;
-	height: 150px;
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
 }
 
 #datosperfil{
 	width: 50%;
+	margin: 0 auto;
 }
 
 #datosperfil ul{
@@ -209,7 +212,7 @@ p{
 }
 
 #tabs{
-	width: 50%;
+	width: 65%;
 }
 
 #contentListaCateg, #contentCreaCateg{

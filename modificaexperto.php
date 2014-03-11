@@ -62,11 +62,10 @@
 	if($result){
 		actualizarFotoPerfil($_SESSION['user']);
 		echo "<ul>
-				<li><strong>Nombre de usuario:</strong> " . $_SESSION['user'] . "</li>
-				<li><strong>Nombre:</strong><br/> " . $_SESSION['nombre'] . "</li>
-				<li><strong>Apellidos:</strong> " . $_SESSION['apellidos'] . "</li>
-				<li><strong>E-mail:</strong> " . $_SESSION['email'] . "</li>
-				<li><strong>Perfil:</strong> " . $_SESSION['perfil'] . "</li>
+				<li><strong>" . $_SESSION['user'] . "</strong></li>
+				<li>" . $_SESSION['nombre'] . " " . $_SESSION['apellidos'] . "</li>
+				<li>" . $_SESSION['email'] . "</li>
+				<li>Perfil: " . $_SESSION['perfil'] . "</li>
 			</ul>";
 	}
 

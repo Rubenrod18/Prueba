@@ -157,4 +157,10 @@ $(function(){
 			$("#activarExpertos ul").html(respuesta);
 		});
 	});
+
+	$('.close2').on('click', function(){
+		$.get("borrarpregunta.php", {idpregunta : $(this).prop('id')}, function(respuesta){
+			$("#listaPre").html(respuesta);
+		});
+	});
 });	
