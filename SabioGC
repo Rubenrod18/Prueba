@@ -1,0 +1,274 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `SabioGC` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci ;
+USE `SabioGC` ;
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Tipos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Tipos` (
+  `tipo` VARCHAR(60) NOT NULL ,
+  PRIMARY KEY (`tipo`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Recursos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Recursos` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `ruta` VARCHAR(400) NULL ,
+  `tipo` VARCHAR(60) NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_Recursos_Tipos1` (`tipo` ASC) ,
+  CONSTRAINT `fk_Recursos_Tipos1`
+    FOREIGN KEY (`tipo` )
+    REFERENCES `SabioGC`.`Tipos` (`tipo` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Perfiles`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Perfiles` (
+  `perfil` VARCHAR(50) NOT NULL ,
+  PRIMARY KEY (`perfil`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Usuarios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `foto` VARCHAR(400) NULL ,
+  `nombre` VARCHAR(50) NULL ,
+  `apellidos` VARCHAR(100) NULL ,
+  `email` VARCHAR(150) NULL ,
+  `nick` VARCHAR(100) NOT NULL ,
+  `pass` VARCHAR(400) NULL ,
+  `perfil` VARCHAR(50) NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `nick_UNIQUE` (`nick` ASC) ,
+  INDEX `fk_Usuarios_Perfiles1` (`perfil` ASC) ,
+  CONSTRAINT `fk_Usuarios_Perfiles1`
+    FOREIGN KEY (`perfil` )
+    REFERENCES `SabioGC`.`Perfiles` (`perfil` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Dificultades`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Dificultades` (
+  `dificultad` VARCHAR(60) NOT NULL ,
+  PRIMARY KEY (`dificultad`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Respuestas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Respuestas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `texto` VARCHAR(400) NULL ,
+  `idRecurso` INT NULL ,
+  `solucion` TINYINT(1) NULL ,
+  `fcreacion` DATETIME NULL ,
+  `fmodificacion` DATETIME NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_Respuestas_Recursos1` (`idRecurso` ASC) ,
+  CONSTRAINT `fk_Respuestas_Recursos1`
+    FOREIGN KEY (`idRecurso` )
+    REFERENCES `SabioGC`.`Recursos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Preguntas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Preguntas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `enunciado` VARCHAR(400) NULL ,
+  `idRecurso` INT NULL ,
+  `idUsuario` INT NULL ,
+  `dificultad` VARCHAR(60) NULL ,
+  `idRespuesta` INT NULL ,
+  `fcreacion` DATETIME NULL ,
+  `fmodificacion` DATETIME NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_Preguntas_Recursos1` (`idRecurso` ASC) ,
+  INDEX `fk_Preguntas_Usuarios1` (`idUsuario` ASC) ,
+  INDEX `fk_Preguntas_Dificultades1` (`dificultad` ASC) ,
+  INDEX `fk_Preguntas_Respuestas1` (`idRespuesta` ASC) ,
+  CONSTRAINT `fk_Preguntas_Recursos1`
+    FOREIGN KEY (`idRecurso` )
+    REFERENCES `SabioGC`.`Recursos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Preguntas_Usuarios1`
+    FOREIGN KEY (`idUsuario` )
+    REFERENCES `SabioGC`.`Usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Preguntas_Dificultades1`
+    FOREIGN KEY (`dificultad` )
+    REFERENCES `SabioGC`.`Dificultades` (`dificultad` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Preguntas_Respuestas1`
+    FOREIGN KEY (`idRespuesta` )
+    REFERENCES `SabioGC`.`Respuestas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Categorias`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Categorias` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(45) NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`RCU`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`RCU` (
+  `idCategoria` INT NOT NULL ,
+  `idUsuario` INT NOT NULL ,
+  PRIMARY KEY (`idCategoria`, `idUsuario`) ,
+  INDEX `fk_Categorias_has_Usuarios_Usuarios1` (`idUsuario` ASC) ,
+  INDEX `fk_Categorias_has_Usuarios_Categorias1` (`idCategoria` ASC) ,
+  CONSTRAINT `fk_Categorias_has_Usuarios_Categorias1`
+    FOREIGN KEY (`idCategoria` )
+    REFERENCES `SabioGC`.`Categorias` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Categorias_has_Usuarios_Usuarios1`
+    FOREIGN KEY (`idUsuario` )
+    REFERENCES `SabioGC`.`Usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`Etiquetas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`Etiquetas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `texto` VARCHAR(150) NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `texto_UNIQUE` (`texto` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`RPE`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`RPE` (
+  `idEtiqueta` INT NOT NULL ,
+  `idPregunta` INT NOT NULL ,
+  PRIMARY KEY (`idEtiqueta`, `idPregunta`) ,
+  INDEX `fk_Etiquetas_has_Preguntas_Preguntas1` (`idPregunta` ASC) ,
+  INDEX `fk_Etiquetas_has_Preguntas_Etiquetas1` (`idEtiqueta` ASC) ,
+  CONSTRAINT `fk_Etiquetas_has_Preguntas_Etiquetas1`
+    FOREIGN KEY (`idEtiqueta` )
+    REFERENCES `SabioGC`.`Etiquetas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Etiquetas_has_Preguntas_Preguntas1`
+    FOREIGN KEY (`idPregunta` )
+    REFERENCES `SabioGC`.`Preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`RPRF`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`RPRF` (
+  `idPregunta` INT NOT NULL ,
+  `idRespuesta` INT NOT NULL ,
+  PRIMARY KEY (`idPregunta`, `idRespuesta`) ,
+  INDEX `fk_Preguntas_has_Respuestas_Respuestas1` (`idRespuesta` ASC) ,
+  INDEX `fk_Preguntas_has_Respuestas_Preguntas1` (`idPregunta` ASC) ,
+  CONSTRAINT `fk_Preguntas_has_Respuestas_Preguntas1`
+    FOREIGN KEY (`idPregunta` )
+    REFERENCES `SabioGC`.`Preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Preguntas_has_Respuestas_Respuestas1`
+    FOREIGN KEY (`idRespuesta` )
+    REFERENCES `SabioGC`.`Respuestas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `SabioGC`.`RPC`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `SabioGC`.`RPC` (
+  `idPregunta` INT NOT NULL ,
+  `idCategoria` INT NOT NULL ,
+  PRIMARY KEY (`idPregunta`, `idCategoria`) ,
+  INDEX `fk_Preguntas_has_Categorias_Categorias1` (`idCategoria` ASC) ,
+  INDEX `fk_Preguntas_has_Categorias_Preguntas1` (`idPregunta` ASC) ,
+  CONSTRAINT `fk_Preguntas_has_Categorias_Preguntas1`
+    FOREIGN KEY (`idPregunta` )
+    REFERENCES `SabioGC`.`Preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Preguntas_has_Categorias_Categorias1`
+    FOREIGN KEY (`idCategoria` )
+    REFERENCES `SabioGC`.`Categorias` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
