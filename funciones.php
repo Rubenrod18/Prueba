@@ -364,7 +364,16 @@
 					</ul>
 					<div id='tabs-1'>
 					<h4>Búsqueda filtrada</h4>
-					<input type='text' placeholder='Búsqueda por enunciado' id='buscaenunciado'>
+					<input type='text' placeholder='Búsqueda por enunciado' id='buscaenunciado'>";
+					$db = conectaDb();
+					// Sacamos las consulta para las preguntas
+					$consultaCateg = 'select * from Categorias';
+					$resultadoCateg = $db->query($consultaCateg);
+					echo "<select class='select' id='filtroCateg'>";
+					foreach($resultadoCateg as $value){
+						echo "<option>" . $value['nombre'] . "</option>";
+					}
+					echo "</select>
 					<div id='preguntas'>";
 						mostrarUltimas();
 					echo "</div></div>

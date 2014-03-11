@@ -59,6 +59,7 @@ a{
 	color: #e06a02;
 	padding: 5px;
 	border-radius: 5px;
+	margin-top: 10px;
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 }

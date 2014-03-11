@@ -179,4 +179,10 @@ $(function(){
 			$("#preguntas").html(respuesta);
 		});
 	});
+
+	$('#filtroCateg').on('click', function(){
+		$.get("filtraCategorias.php", {categoria : $(this).val()}, function(respuesta){
+			$("#preguntas").html(respuesta);
+		});
+	});
 });	
