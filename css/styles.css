@@ -1,6 +1,6 @@
 @font-face{
-font-family: icons;
-src: url(../fonts/tick.ttf);
+	font-family: icons;
+	src: url(../fonts/tick.ttf);
 }
 
 [class^="icon-"]:before,
@@ -294,6 +294,17 @@ div > select{
 }
 
 div > select:hover{
+	cursor: pointer;
+}
+
+.respV{
+	color: #3FB228;
+}
+
+.close{
+	width: 20px;
+	vertical-align: middle;
+	margin-right: 10px;
 	cursor: pointer;
 }
 

@@ -7,6 +7,9 @@
 	include "funciones.php";
 	
 	$db = conectaDb();
+	if(isset($_SESSION['fotoedit'])){
+		$_SESSION['foto'] = $_SESSION['fotoedit'];
+	}
 ?>
 
 <!doctype html>

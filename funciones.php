@@ -97,47 +97,31 @@
 			</div>
 			<div id='categperfil'>
 				<h3>Categorías</h3>
-				<ul>";
-					if( $_SESSION['activo'] == 1 ){
-						$db = conectaDb();
-						// Sacamos las consulta para la categoria asociada al usuario
-						$consultaCategoria = 'select idCategoria from RCU where idUsuario = '.$_SESSION['id'];
-						$resultadoCategorias = $db->query($consultaCategoria);
-
-						foreach($resultadoCategorias as $value){
-							$id = $value['idCategoria']; // Obtengo la categoria
-							// Muestro el nombre de la categoria a través de su ID
-							$consultaNombreCategoria = "select nombre from Categorias where id = $id";
-							$resultadoNombreCategorias = $db->query($consultaNombreCategoria);
-							foreach($resultadoNombreCategorias as $value){
-								echo "<li>" . $value['nombre'] . "</li>";
-							}
-						}
-					}
-
-		echo "</ul>
+				<ul>
+					<li>Categoría 1</li>
+					<li>Categoría 2</li>
+				</ul>
 			</div>
 		</div>";
-		
 	}
 
 	function editarUsuario(){
-		echo "<form enctype='multipart/form-data'>
+		echo "<form id='formedituser' name='formedituser' enctype='multipart/form-data' method='post' action='modificaexperto.php'>
 				<h4>¿Quiere modificar algún dato?</h4>
 					<br/><label for='nombre'>Nombre</label><br/>
-					<input type='text' name='nombre' id='nombre' />
+					<input type='text' name='nombre' id='editnombre' />
 					<br/><label for='apellidos'>Apellidos</label><br/>
-					<input type='text' name='apellidos' id='apellidos' />
+					<input type='text' name='apellidos' id='editapellidos' />
 					<br/><label for='email'>E-mail</label><br/>
-					<input type='email' name='email' id='email'><br/>
+					<input type='email' name='email' id='editemail'><br/>
 					<label for='password'>Contraseña*</label><br/>
-					<input type='password' name='password' id='password' required/>
+					<input type='password' name='password' id='editpassword'/>
 					<br/><label for='password2'>Confirmar contraseña</label><br/>
-					<input type='password' name='password2' id='password2' required/>
-					<br/><label for='foto'>Foto</label><br/>
-					<input type='file' name='foto'/>
+					<input type='password' name='password2' id='editpassword2'/>
+					<br/><label for='editfoto'>Foto</label><br/>
+					<input id='editfoto' type='file' name='editfoto'/>
 					<br/>
-					<button id='confirmod' class='botones'>Confirmar</button>
+					<input type='submit' id='confirmod' class='botones' value='Confirmar'>
 		</form>";
 		/** ------------------------ HACER LISTA DE CATEGORIAS COMO SELECT */
 	}
@@ -204,6 +188,79 @@
 			</form>
 		</div>";
 	}
+
+	function gestionExpertos(){
+		$db = conectaDb();
+		
+		//recoger los expertos inactivos
+		$expertosInactivos = "SELECT * FROM Usuarios WHERE activo=0 AND perfil='experto'";
+		$resultExpertos = $db->query($expertosInactivos);
+		
+		//recoger los expertos para eliminarlos
+		$expertosEliminar = "SELECT * FROM Usuarios WHERE perfil='experto'";
+		$resultExpertos2 = $db->query($expertosEliminar);
+
+		echo "<div id='activarExpertos'>
+				<h4>Expertos pendientes activación</h4>
+				<ul>";
+				if($resultExpertos){
+					foreach ($resultExpertos as $value) {
+						echo "<li>" . $value['nick'] . "<a id='" . $value['id'] . "' class='icon-tick'></a></li>";
+					}
+				}
+				echo "</ul>
+			</div>
+			<div id='eliminarExpertos'>
+				<h4>Expertos a eliminar</h4>
+				<ul>";
+				if($resultExpertos2){
+					foreach ($resultExpertos2 as $value) {
+						echo "<li><img id='" . $value['id'] . "' class='close' src='./img/close.png'>" . $value['nick'] . "</li>";
+					}
+				}
+			echo "</ul>
+			</div>";
+	}
+
+	function mostrarUltimas(){
+		$db = conectaDb();
+
+		$consulta = "SELECT * FROM Preguntas ORDER BY fcreacion DESC LIMIT 5";
+		$result = $db->query($consulta);
+
+		if($result){
+			foreach ($result as $value) {
+				$consultaV = "SELECT * FROM Respuestas WHERE id='" . $value['idRespuesta'] . "'";
+				$resultV = $db->query($consultaV);
+				if($resultV){
+					foreach ($resultV as $valueV) {
+						echo "<div class='divPregunta'>
+							<h4>" . $value['enunciado'] . " <strong>(" . $value['fcreacion'] . ")</strong></h4>
+							<ul>
+								<li class='respV'>" . $valueV['texto'] . "</li>";
+								$consultaRPRF = "SELECT * FROM RPRF WHERE idPregunta='" . $value['id'] . "'";
+								$resultRPRF = $db->query($consultaRPRF);
+								if($resultRPRF){
+									foreach ($resultRPRF as $valueRPRF) {
+										$consultaF = "SELECT * FROM Respuestas WHERE id='" . $valueRPRF['idRespuesta'] . "'";
+										$resultF = $db->query($consultaF);
+										if($resultF){
+											foreach ($resultF as $valueF) {
+												echo "<li>" . $valueF['texto'] . "</li>";
+											}
+										}
+									}
+								}
+							echo "</ul>
+						</div>";
+					}	
+				}
+			}
+
+		}
+
+		$db = null;
+	}
 	
 	function crearTabs(){
 		$db = conectaDb();
@@ -231,9 +288,9 @@
 					<li class='agrPregunta'><a href='#tabs-2'>Agregar pregunta</a></li>
 					<li><a href='#tabs-3'>Perfil</a></li>
 					</ul>
-					<div id='tabs-1'>
-						
-					</div>
+					<div id='tabs-1'>";
+						mostrarUltimas();
+					echo "</div>
 					<div id='tabs-2'>";
 						agregarPregunta();
 					echo "</div>
@@ -250,9 +307,9 @@
 					<li><a href='#tabs-5'>Gestión categorías</a></li>
 					<li><a href='#tabs-6'>Perfil</a></li>
 					</ul>
-					<div id='tabs-1'>
-						
-					</div>
+					<div id='tabs-1'>";
+						mostrarUltimas();
+					echo "</div>
 					<div id='tabs-2'>";
 						agregarPregunta();
 					echo "</div>
@@ -260,38 +317,9 @@
 					<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
 						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
 					</div>
-					<div id='tabs-4'>
-						<fieldset>
-							<legend>Expertos pendientes activación</legend>
-							<form name='Factivacion' method='POST' action='activaexpertos.php'>
-								<div>
-									<label>Expertos: </label>
-									<select class='botones' name='expertosInactivos'>";
-										$consultaExpertosInact = "SELECT nick FROM Usuarios WHERE activo=0 and perfil='experto'";
-										$resultExpertosInact = $db->query($consultaExpertosInact);
-										foreach ($resultExpertosInact as $value)
-											echo "<option>".$value['nick']."</option>";
-									echo "</select>
-								</div>
-								<input class='botones' type='submit' value='Activar' >
-							</form>
-						</fieldset>
-						<fieldset>
-							<legend>Eliminar expertos</legend>
-							<form name='Feliminacion' method='POST' action='eliminaexpertos.php'>
-								<div>
-									<label>Expertos: </label>
-									<select class='botones' name='todosexpertos'>";
-										$consultaExpertos = "SELECT nick FROM Usuarios WHERE perfil='experto'";
-										$resultExpertos = $db->query($consultaExpertos);
-										foreach ($resultExpertos as $value)
-											echo "<option>".$value['nick']."</option>";
-									echo "</select>
-								</div>
-								<input class='botones' type='submit' value='Eliminar' >
-							</form>
-						</fieldset>
-					</div>
+					<div id='tabs-4'>";
+						gestionExpertos();
+					echo "</div>
 					<div id='tabs-5'>";
 						$categorias = "SELECT * FROM Categorias";
 						$resultCateg = $db->query($categorias);

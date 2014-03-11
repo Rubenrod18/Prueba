@@ -1,28 +1,31 @@
 <?php
-/*
-Aquí se activarán los expertos que están pendiente de activación
-*/
-include"funciones.php";
+	include "funciones.php";
 
-$idExpertoActivar = $_GET['idExpertoActivar'];
-$db=conectaDB();
+	$id = $_GET['id'];
 
-/*para actualizar el estado del experto*/
-$consulta = "UPDATE Usuarios SET activo=1 WHERE id=:id";
-$result=$db->prepare($consulta);
-$result->execute(array(":id"=>$idExpertoActivar));
+	$db = conectaDb();
+	$consulta = "UPDATE Usuarios SET activo='1' WHERE id=".$id."";
+	$result = $db->query($consulta);
 
-if(!$result){
-	return "ha habido un problema en la BD";
-}
-else{
-	//volver a listar a los usuarios inactivos
-	$consultaExpertos = "SELECT nick FROM Usuarios WHERE activo=0";
-	$resultListar = $db->query($consultaExpertos);
-	if($resultListar){
-		foreach ($resultListar as $value)
-			echo "<li><img id='".$value['id']."' class='close' src='./img/check33.svg'>".$value['nick']."</li>";
+	if($result){
+		$consulta2 = "SELECT * FROM Usuarios WHERE activo=0 AND perfil='experto'";
+		$result2 = $db->query($consulta2);
+
+		if($result2){
+			foreach($result2 as $value){
+				echo "<li>" . $value['nick'] . "<a id='" . $value['id'] . "' class='icon-tick'></a></li>";
+			}
+		}
 	}
-}
 
-$db=null;
+	$db=null;
+
+?>
+<script type="text/javascript">
+	//¡¡¡¡PROBLEMON: HAY QUE HACER UNA SEGUNDA LLAMADA A LA OPERACIÓN PORQUE SINO SOLO FUNCIONA UNA VEZ!!
+	$('#activarExpertos .icon-tick').click(function(){
+		$.get("activaexpertos.php", {id : $(this).prop('id')}, function(respuesta){
+			$("#activarExpertos ul").html(respuesta);
+		});
+	});
+</script>

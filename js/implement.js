@@ -27,7 +27,7 @@ $(function(){
 			$("#listaCateg").html(respuesta);
 		});
 	});
-
+	
 	$('#confirmod').click(function(e){
 		var editfoto = $('#editfoto').val();
 		/*editfoto = editfoto.split('\\');
@@ -140,22 +140,21 @@ $(function(){
 		});
 	});
 
-	//esto es para borrar los expertos de la BD
-	$("#listaExpertosBorrar li .close").click(function(){
-		$.get("eliminaexpertos.php", {idExpertoBorrar : $(this).prop('id')}, function(respuesta){
-			$("#listaExpertosBorrar").html(respuesta);
-		});
-		//una vez borrado, lo que se hace es actualizar también los usuarios pendientes
-		$.get("listaexpertos.php", function(respuesta){
-			$("#listaExpertosActivar").html(respuesta);
+	//ACTIVACIÓN DE EXPERTOS
+	$('#activarExpertos .icon-tick').click(function(){
+		$.get("activaexpertos.php", {id : $(this).prop('id')}, function(respuesta){
+			$("#activarExpertos ul").html(respuesta);
 		});
 	});
 
-	//esto es para activar los expertos en la BD
-	$("#listaExpertosActivar li .close").click(function(){
-		$.get("activaexpertos.php", {idExpertoActivar : $(this).prop('id')}, function(respuesta){
-			$("#listaExpertosActivar").html(respuesta);
+	//ELIMINACIÓN DE EXPERTOS
+	$('#eliminarExpertos .close').click(function(){
+		$.get("eliminarexpertos.php", {id : $(this).prop('id')}, function(respuesta){
+			$("#eliminarExpertos ul").html(respuesta);
 		});
 
-	});	
+		$.get("activaexpertos.php", {id : $(this).prop('id')}, function(respuesta){
+			$("#activarExpertos ul").html(respuesta);
+		});
+	});
 });	
