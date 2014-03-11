@@ -191,6 +191,7 @@
 				</div>
 				<div id='divRespuestaIncorrecta'>
 					<input type='text' id='respuestaIn' name='respuestaIn' placeholder='Respuesta incorrecta'><a id='tickIn' class='icon-tick'></a>
+					<ul id='listIn'></ul>
 				</div>
 				<div id='divRespuestaCorrecta'>
 					<input type='text' id='respuestaCo' name='respuestaCo' placeholder='Respuesta correcta'><a id='tickCo' class='icon-tick'></a>

@@ -98,6 +98,7 @@ $(function(){
 			$('#divRespuestaIncorrecta').hide('slow', function(){
 				$('#respuestaIn').val('');
 				$(this).show('slow');
+				$('#listIn').append("<li>" + respuesta + "</li>");
 			});
 		}
 	});
