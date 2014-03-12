@@ -180,6 +180,10 @@ p{
 	margin-left: 20px;
 }
 
+#categperfil{
+	margin-bottom: 15px;
+}
+
 #fotoperfil, #datosperfil{
 	display: inline-block;
 	vertical-align: top;
@@ -335,6 +339,20 @@ div > select:hover{
 
 #tformReg{
 	margin-left: 20px;
+}
+
+#filtroCateg{
+	width: 200px;
+	margin-left: 10px;
+}
+
+#enlaceCerrar{
+	color: #e06a02;
+	text-decoration: underline;
+}
+
+#enlaceCerrar:hover{
+	color: #3D3636;
 }
 
 footer{

@@ -117,7 +117,9 @@
 				 // AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
                 echo "</ul>";
                 mostrarCategorias();
+                echo "<br/><a id='enlaceCerrar' href='cerrarsesion.php'>Cerrar sesión</a>";
             echo "</div>
+            
         </div>";
             // ----------------------------------------------------------------
     }
